@@ -6,7 +6,7 @@ Enable wide array of people with disabilities to use your Odoo website effective
 
 [`All in One Accessibility introduction`](https://www.youtube.com/watch?v=PPQMWSzroAA) - introduction of All in One Accessibility widget .
 
-### Features of Odoo All In One Accessibility Pro Version: (It includes all the features of the Free Version + additional features as below)
+### Features of Odoo All In One Accessibility Pro:
 
 **Content Adjustments**
 
@@ -97,9 +97,11 @@ Enable wide array of people with disabilities to use your Odoo website effective
 *   Dynamic Widget Color
 *   Choose Widget Trigger Button Position
 *   Choose Widget Position
-*   Multi Language
+*   Multi-Language
 *   Read Mode
 *   Hide Interface
+*   Dictionary
+*   Virtual Keyboard
 
 ![plot](Odoo-allinoneaccessibilitypro/image/pro.png)
 
