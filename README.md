@@ -188,7 +188,7 @@ Differentiate both the version (Free and Pro) and select based on your requireme
 *   Read Mode
 *   Hide Interface
 
-![plot](Odoo-allinoneaccessibilitypro/image/first.png)
+![plot](Odoo-allinoneaccessibilitypro/image/pro.png)
 
 ![plot](Odoo-allinoneaccessibilitypro/image/second.png)
 
