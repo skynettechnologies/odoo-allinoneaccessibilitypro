@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="odoo_aioa_pro" inherit_id="portal.frontend_layout"  name="odoo_aioa_pro">
+            <xpath expr="//header" position="after">
+                <script id= "aioa-adawidget-odoo" t-attf-src="{{request.env['ir.config_parameter'].sudo().get_param('odoo-allinoneaccessibilitypro.base_url_pro')}}"></script>                    
+            </xpath>
+        </template>
+</odoo>
