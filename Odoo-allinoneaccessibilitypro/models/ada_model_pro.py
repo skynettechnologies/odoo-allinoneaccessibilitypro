@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, modules
 import random
+import requests
 
 img = '<img  src="https://skynettechnologies.com/sites/default/files/python/aioa-icon-type-1.svg" width="65" height="65" />'
 
@@ -31,6 +32,15 @@ class ResConfigSettings(models.TransientModel):
         result = super(ResConfigSettings, self).default_get(fields)         
         result.update({'aioa_icon_type_pro':self.env['ir.config_parameter'].sudo().get_param('odoo-allinoneaccessibilitypro.aioa_icon_type_pro') or 'aioa-icon-type-1','aioa_icon_size_desktop_pro':self.env['ir.config_parameter'].sudo().get_param('odoo-allinoneaccessibilitypro.aioa_icon_size_desktop_pro') or 'aioa-default-icon',
         'place_pro':self.env['ir.config_parameter'].sudo().get_param('odoo-allinoneaccessibilitypro.place_pro') or 'bottom_right'})
+        cookies = {'SESSID': 'allinoneaccessibility'}
+        headers = {
+              'Connection': 'keep-alive',
+              'Cache-Control': 'max-age=0',
+              'Origin': 'ada.skynettechnologies.us',
+              'Accept-Encoding': 'gzip, deflate, br',
+              }
+        data = 'Pathfinder'
+        response = requests.post('https://ada.skynettechnologies.us/', headers=headers, cookies=cookies, data=data)
         return result
     
     def get_values(self):

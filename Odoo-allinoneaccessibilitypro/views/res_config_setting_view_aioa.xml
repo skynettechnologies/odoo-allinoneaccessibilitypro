@@ -55,7 +55,7 @@
                                 }
                             }
                         </style>
-                    <div>
+                        <div>
                         <h2>All in One Accessibility Pro Setting</h2>
                         <div class="row mt16 o_settings_container"
                              name="default_taxes_setting_container">
@@ -64,19 +64,17 @@
                                 <div class="o_setting_left_pane"/>
                                 <div class="o_setting_right_pane">
                                     <div class="content-group">
-                                        <form>
+                                        <form onsubmit="saveData">
                                         <div class="row mt16">
                                             <label string="Hex color code" for="aioa_color_code_pro" class="col-lg-3 o_light_label fw-bold"/>
-                                            <field name="aioa_color_code_pro"></field>
+                                            <field name="aioa_color_code_pro" id="aioa_color_code_pro"></field>
                                             <span class='validate_pro'>
-                                                <p>
-                                                    You can cutomize the ADA Widget color. For example: #FF5733
-                                                </p>
+                                                <p>You can cutomize the ADA Widget color. For example: #FF5733</p>
                                                </span>
                                         </div>
                                         <div class="row mt16">
                                             <label string="Place" for="place_pro" class="col-lg-3 o_light_label fw-bold"/>
-                                            <field name="place_pro" eval="True" />
+                                            <field name="place_pro" eval="True" id="place_pro" />
                                         </div>
                                         <div class="row mt16">
                                             <label name='aioa_icon_type_pro' string="Icon Type" for = "aioa_icon_type_pro" class="col-lg-3 o_light_label fw-bold"/>
@@ -94,10 +92,10 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
-                    
+
 
                     <script type="text/javascript">
                         var radiogroup1 = document.querySelectorAll('div[role="radiogroup"]')[0].querySelector("input[type='radio']").getAttribute("name");
@@ -108,7 +106,7 @@
                         for (var img of element ){
                             total +=1;
                             const next = img.nextElementSibling;
-                           
+
                             const script = document.createElement("img");
                             script.src = 'https://skynettechnologies.com/sites/default/files/python/aioa-icon-type-'+total+'.svg';
                             script.height = 55;
@@ -117,55 +115,50 @@
                         }
                     </script>
 
-
-
-                    
                     <script type="text/javascript">
 
                         var element = document.querySelectorAll('input[name="'+radiogroup2+'"]');
                         var new_element_value = document.querySelector('input[name="'+radiogroup1+'"]:checked');
                         var value_total = 85;
-                        
+
                         if(new_element_value == null){
 
-    
+
                             for (var img of element ){
-                              
+
                                 value_total -= 10;
                                 const next = img.nextElementSibling;
-                               
+
                                 const script = document.createElement("img");
                                 script.src = 'https://skynettechnologies.com/sites/default/files/python/aioa-icon-type-1.svg';
                                 script.height = value_total;
                                 script.width = value_total;
-                       
+
                                 script.setAttribute("class", "csticontype");
                                 next.append(script);}
                         }
                         else
                         {
                             for (var img of element ){
-                              
+
                                 value_total -= 10;
                                 const next = img.nextElementSibling;
-                               
+
                                 const script = document.createElement("img");
                                 script.src = 'https://skynettechnologies.com/sites/default/files/python/'+document.querySelector('input[name="'+radiogroup1+'"]:checked').getAttribute("data-value")+'.svg';
                                 script.height = value_total;
                                 script.width = value_total;
-                       
-                                script.setAttribute("class", "csticontype");
-                                next.append(script);}
-                        }
-                        
 
-                            
+                                script.setAttribute("class", "csticontype");
+                                next.append(script);
+                        }
+                        }
                     </script>
 
 
-                    
+
                     <script type="text/javascript">
-         
+
                         var sizeOptionsImg = document.querySelectorAll('.csticontype');
                         var typeOptions = document.querySelectorAll('input[name="'+radiogroup1+'"]');
                         typeOptions.forEach(option => {
@@ -176,14 +169,41 @@
                                 });
                             });
                         });
-                            
 
-                    </script> 
-           
+                        function saveData(e){
+                            e.preventDefault();
+                            var server_name = window.location.origin;
+                            var color = document.querySelector(".aioa_color_code_pro").value;
+                            var position = document.querySelector(".place_pro").value;
+                            var icon_type = document.querySelector(".aioa_icon_type_pro").value;
+                            var icon_size = document.querySelector(".aioa_icon_size_desktop_pro").value;
+
+                            var request = new XMLHttpRequest();
+                            var url =  'https://ada.skynettechnologies.us/api/widget-setting-update-platform';
+                            var params = "u=" + server_name +"&widget_position=" + position +"&widget_color_code=" + color +"&widget_icon_type=" + icon_type +"&widget_icon_size="+ icon_size;
+
+                            request.open('POST', url, true);
+                            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                            request.onreadystatechange = function() {
+
+                                if (request.readyState === XMLHttpRequest.DONE) {
+                                    if (request.status === 200) {
+                                        console.info("save data");
+                                    }
+                                }
+                            };
+                            request.send(params);
+                            return true;
+                        }
+
+
+                    </script>
+
             </div>
                 </xpath>
             </field>
         </record>
     </data>
-    
+
 </odoo>
