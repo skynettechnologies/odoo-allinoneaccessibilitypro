@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="78bacf84-4701-4c00-904b-f8966c0d290c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Odoo-allinoneaccessibilitypro/static/description/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Odoo-allinoneaccessibilitypro/static/description/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,6 +46,7 @@
       <workItem from="1725516988251" duration="7358000" />
       <workItem from="1725597883827" duration="5183000" />
       <workItem from="1725688196586" duration="2614000" />
+
     </task>
     <servers />
   </component>
