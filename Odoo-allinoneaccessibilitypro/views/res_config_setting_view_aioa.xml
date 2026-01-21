@@ -9,7 +9,10 @@
             <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
             <field name="arch" type="xml">
                 <!-- <xpath expr="//div[hasclass('settings')]" position="after"> -->
-                    <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <xpath expr="//div[@id='companies']" position="after">
+                    <!-- <xpath expr="//app[@name='general_settings']" position="inside"> -->
+                    <!-- <xpath expr="//div[contains(@class, 'settings')]" position="inside"> -->
+                    <!-- <xpath expr="//div[hasclass('settings')]" position="inside"> -->
                     <div class="app_settings_block" data-string="All in One Accessibility Pro Setting" string="All in One Accessibility Pro Setting" data-key="odoo-allinoneaccessibilitypro">
                         <style>
                             .aioa_icon_type_pro_wrapper .form-check-input{
@@ -72,18 +75,83 @@
                                                 <p>You can cutomize the ADA Widget color. For example: #FF5733</p>
                                                </span>
                                         </div>
+                                        <!-- Precise Position -->
+                                        <div class="row mt16">
+                                            <label for="aioa_precise_position_pro" class="col-lg-3 o_form_label">
+                                                Enable Precise accessibility widget icon position
+                                            </label>
+                                            <div class="col-lg-9">
+                                                <field name="aioa_precise_position_pro"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- Right Offset -->
+                                        <div class="row mt16" invisible="not aioa_precise_position_pro">
+                                            <label for="aioa_offset_right_pro" class="col-lg-3 o_form_label">Right offset (PX)</label>
+                                            <div class="col-lg-3">
+                                                <field name="aioa_offset_right_pro"/>
+                                                <p class="text-muted">0 - 250px are permitted values</p>
+                                            </div>
+                                            <label for="aioa_offset_right_dir_pro" class="col-lg-3 o_form_label">To the left</label>
+                                            <div class="col-lg-3">
+                                                <field name="aioa_offset_right_dir_pro"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- Bottom Offset -->
+                                        <div class="row mt16" invisible="not aioa_precise_position_pro">
+                                            <label for="aioa_offset_bottom_pro" class="col-lg-3 o_form_label">Bottom offset (PX)</label>
+                                            <div class="col-lg-3">
+                                                <field name="aioa_offset_bottom_pro"/>
+                                                <p class="text-muted">0 - 250px are permitted values</p>
+                                            </div>
+                                            <label for="aioa_offset_bottom_dir_pro" class="col-lg-3 o_form_label">To the bottom</label>
+                                            <div class="col-lg-3">
+                                                <field name="aioa_offset_bottom_dir_pro"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- Placement -->
                                         <div class="row mt16">
                                             <label string="Place" for="place_pro" class="col-lg-3 o_light_label fw-bold"/>
                                             <field name="place_pro" eval="True" id="place_pro" />
                                         </div>
+
+                                        <!-- Widget Size -->
+                                        <div class="row mt16">
+                                            <label string="Widget Size" for="aioa_size_pro" class="col-lg-3 o_light_label fw-bold"/>
+                                            <field name="aioa_size_pro" eval="True"/>
+                                        </div>
+
+                                         <!-- ICON TYPE SECTION -->
                                         <div class="row mt16">
                                             <label name='aioa_icon_type_pro' string="Icon Type" for = "aioa_icon_type_pro" class="col-lg-3 o_light_label fw-bold"/>
                                             <field name="aioa_icon_type_pro" id="aioa_icon_type_pro" class="aioa_icon_type_pro_wrapper"  widget="radio"  options="{'horizontal': true} " />
                                         </div>
+
+                                        <!-- Enable Icon Custom Size -->
+                                        <div class="row mt16">
+                                            <label for="aioa_custom_icon_size_pro" class="col-lg-3 o_form_label">Enable Icon Custom Size</label>
+                                            <div class="col-lg-9">
+                                                <field name="aioa_custom_icon_size_pro"/>
+                                            </div>
+                                        </div>
+
                                         <div class="row mt16">
                                             <label  name='aioa_icon_size_desktop_pro' string="Icon size for Desktop" for = "aioa_icon_size_desktop_pro" class="col-lg-3 o_light_label fw-bold"/>
                                             <field name="aioa_icon_size_desktop_pro"  class="aioa_icon_type_pro_wrapper"  widget="radio" options="{'horizontal': true}" />
                                         </div>
+
+                                        <div class="row mt16" invisible="not aioa_custom_icon_size_pro">
+                                            <label for="aioa_custom_icon_size_px_pro" class="col-lg-3 o_form_label">Select exact icon size (PX):</label>
+                                            <div class="col-lg-3">
+                                                <field name="aioa_custom_icon_size_px_pro"/>
+                                                <p class="text-muted">20 - 150px are permitted values</p>
+                                            </div>
+                                        </div>
+
+                                        
+
                                         <!-- <div class="row mt16">
                                             <label  name='aioa_icon_size_mobile' string="Icon size for Mobile" for = "aioa_icon_size_mobile" class="col-lg-3 o_light_label fw-bold"/>
                                             <field name="aioa_icon_size_mobile"  class="aioa_icon_type_pro_wrapper"  widget="radio" options="{'horizontal': true}" />
@@ -180,7 +248,9 @@
 
                             var request = new XMLHttpRequest();
                             var url =  'https://ada.skynettechnologies.us/api/widget-setting-update-platform';
-                            var params = "u=" + server_name +"&widget_position=" + position +"&widget_color_code=" + color +"&widget_icon_type=" + icon_type +"&widget_icon_size="+ icon_size;
+                            var params = "u=" + server_name + "&amp;widget_position=" + position + "&amp;widget_color_code=" + color + "&amp;widget_icon_type=" + icon_type + "&amp;widget_icon_size=" + icon_size;
+
+                            <!-- var params = "u=" + server_name +"&widget_position=" + position +"&widget_color_code=" + color +"&widget_icon_type=" + icon_type +"&widget_icon_size="+ icon_size; -->
 
                             request.open('POST', url, true);
                             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
