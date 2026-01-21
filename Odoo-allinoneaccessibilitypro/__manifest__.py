@@ -22,5 +22,11 @@
     'installable': True,
     'application': True,
     'support':'hello@skynettechnologies.com',
+    "assets": {
+        "web.assets_backend": [
+            # "odoo_allinoneaccessibilitypro/static/src/js/aioa_settings.js",
+            # "odoo_allinoneaccessibilitypro/static/src/css/aioa_settings.css",
+        ],
+    },
 }
 

@@ -3,3 +3,4 @@
 from . import ada_model_pro
 # from . import login_image
 # from . import website
+from . import register_domain_api
