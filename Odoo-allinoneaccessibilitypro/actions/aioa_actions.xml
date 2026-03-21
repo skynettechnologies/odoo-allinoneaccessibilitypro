@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_aioa_save_and_sync" model="ir.actions.server">
+            <field name="name">AIOA: Save Widget Settings</field>
+            <field name="model_id" ref="odoo-allinoneaccessibilitypro.model_aioa_settings"/>
+            <field name="state">code</field>
+            <field name="code"><![CDATA[
+for rec in records:
+
+    # ── Validation ────────────────────────────────────────────────────────
+    if rec.x_precise_position:
+        if not (0 <= (rec.x_offset_right or 0) <= 250):
+            raise UserError('Right offset (PX) must be between 0 and 250.')
+        if not (0 <= (rec.x_offset_bottom or 0) <= 250):
+            raise UserError('Bottom offset (PX) must be between 0 and 250.')
+    if rec.x_custom_icon_size:
+        if not (20 <= (rec.x_custom_icon_size_px or 50) <= 150):
+            raise UserError('Custom icon size must be between 20 and 150 pixels.')
+
+    # ── Save all settings to ICP ──────────────────────────────────────────
+    ICP = env['ir.config_parameter'].sudo()
+    ICP.set_param('odoo-allinoneaccessibilitypro.color_code',          (rec.x_color_code or '420083').lstrip('#'))
+    ICP.set_param('odoo-allinoneaccessibilitypro.style',               rec.x_style or 'bottom_right')
+    ICP.set_param('odoo-allinoneaccessibilitypro.precise_position',    str(bool(rec.x_precise_position)))
+    ICP.set_param('odoo-allinoneaccessibilitypro.icon_type',           rec.x_icon_type or 'aioa-icon-type-1')
+    ICP.set_param('odoo-allinoneaccessibilitypro.size',                rec.x_size or 'regular')
+    ICP.set_param('odoo-allinoneaccessibilitypro.icon_size_desktop',   rec.x_icon_size_desktop or 'aioa-default-icon')
+    ICP.set_param('odoo-allinoneaccessibilitypro.custom_icon_size',    str(bool(rec.x_custom_icon_size)))
+    ICP.set_param('odoo-allinoneaccessibilitypro.custom_icon_size_px', str(rec.x_custom_icon_size_px or 50))
+    ICP.set_param('odoo-allinoneaccessibilitypro.offset_right',        str(rec.x_offset_right or 20))
+    ICP.set_param('odoo-allinoneaccessibilitypro.offset_right_dir',    rec.x_offset_right_dir or 'to_the_left')
+    ICP.set_param('odoo-allinoneaccessibilitypro.offset_bottom',       str(rec.x_offset_bottom or 20))
+    ICP.set_param('odoo-allinoneaccessibilitypro.offset_bottom_dir',   rec.x_offset_bottom_dir or 'to_the_bottom')
+
+    # ── Build widget payload dict (no json.dumps — stored as key=value pairs) ─
+    base_url = ICP.get_param('web.base.url', '')
+    domain   = base_url
+    if '://' in base_url:
+        parts  = base_url.split('://')
+        host   = parts[1].split('/')[0].split(':')[0]
+        domain = parts[0] + '://' + host
+
+    color     = (rec.x_color_code or '420083').lstrip('#')
+    precise   = bool(rec.x_precise_position)
+    custom_sz = bool(rec.x_custom_icon_size)
+    size      = rec.x_size or 'regular'
+
+    wp = {
+        'u':                         domain,
+        'widget_color_code':         '#' + color,
+        'widget_icon_type':          rec.x_icon_type or 'aioa-icon-type-1',
+        'widget_position':           '' if precise else (rec.x_style or 'bottom_right'),
+        'widget_size':               1 if size == 'oversize' else 0,
+        'is_widget_custom_position': 1 if precise else 0,
+        'is_widget_custom_size':     1 if custom_sz else 0,
+    }
+    if custom_sz:
+        wp['widget_icon_size']        = ''
+        wp['widget_icon_size_custom'] = rec.x_custom_icon_size_px or 50
+    else:
+        wp['widget_icon_size']        = rec.x_icon_size_desktop or 'aioa-default-icon'
+        wp['widget_icon_size_custom'] = 0
+    if precise:
+        # Set position parameters based on direction
+        # Horizontal position
+        if rec.x_offset_right_dir == 'to_the_right':
+            wp['widget_position_left']  = None
+            wp['widget_position_right'] = rec.x_offset_right or 20
+        else:  # to_the_left (default)
+            wp['widget_position_left']  = rec.x_offset_right or 20
+            wp['widget_position_right'] = None
+        
+        # Vertical position
+        if rec.x_offset_bottom_dir == 'to_the_top':
+            wp['widget_position_bottom'] = None
+            wp['widget_position_top']    = rec.x_offset_bottom or 20
+        else:  # to_the_bottom (default)
+            wp['widget_position_bottom'] = rec.x_offset_bottom or 20
+            wp['widget_position_top']    = None
+
+
+    # Store as JSON string for JS to consume
+    # json is available in Odoo safe_eval context (v16+)
+    ICP.set_param('odoo-allinoneaccessibilitypro.pending_widget_payload', json.dumps(wp))
+            ]]></field>
+        </record>
+
+    </data>
+</odoo>
