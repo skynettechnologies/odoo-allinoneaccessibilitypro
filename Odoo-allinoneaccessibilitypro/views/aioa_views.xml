@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- ══ Default record created on install only, not overwritten on upgrade ══ -->
+        <record id="aioa_settings_default" model="x_aioa.settings">
+            <field name="x_name">Default</field>
+            <field name="x_color_code">420083</field>
+            <field name="x_style">bottom_right</field>
+            <field name="x_icon_type">aioa-icon-type-1</field>
+            <field name="x_icon_size_desktop">aioa-default-icon</field>
+            <field name="x_size">oversize</field>
+        </record>
+    </data>
+
+    <data>
+
+        <!-- ══ List View ══ -->
+        <record id="view_aioa_settings_list" model="ir.ui.view">
+            <field name="name">x_aioa.settings.list</field>
+            <field name="model">x_aioa.settings</field>
+            <field name="arch" type="xml">
+                <list string="All in One Accessibility Settings">
+                    <field name="x_color_code"/>
+                    <field name="x_style"/>
+                    <field name="x_icon_type"/>
+                    <field name="x_size"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ══ Form View - PROFESSIONAL VERSION ══ -->
+        <record id="view_aioa_settings_form" model="ir.ui.view">
+            <field name="name">x_aioa.settings.form</field>
+            <field name="model">x_aioa.settings</field>
+            <field name="arch" type="xml">
+                <form string="All in One Accessibility">
+                    <header>
+                        <button name="odoo-allinoneaccessibilitypro.action_aioa_save_and_sync"
+                                type="action"
+                                string="Save and Sync Widget"
+                                class="btn-primary"
+                                save="1"/>
+                    </header>
+                    <sheet>
+
+                        <!-- ══ Color Settings Section ══ -->
+                        <group string="Widget Color Theme">
+                            <group>
+                                <field name="x_color_code"
+                                       placeholder="420083"
+                                       class="oe_inline"/>
+                            </group>
+                            <group>
+                                <div style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9;">
+                                    <strong>Format:</strong> Enter hex color without the # symbol.<br/>
+                                    <strong>Example:</strong> <code>420083</code> for purple, <code>FF5733</code> for orange
+                                </div>
+                            </group>
+                        </group>
+
+                        <!-- ══ Widget Position Section ══ -->
+                        <group string="Widget Position">
+                            <group>
+                                <field name="x_precise_position" 
+                                       string="Enable Custom Positioning"
+                                       widget="boolean_toggle"/>
+                                
+                                <!-- Simple Position Selector (when precise positioning is OFF) -->
+                                <field name="x_style"
+                                       string="Position of Accessibility Icon"
+                                       invisible="x_precise_position"
+                                       widget="radio"
+                                       options="{'horizontal': true}"/>
+                                
+                                <!-- Advanced Position Controls (when precise positioning is ON) -->
+                                <label for="x_offset_right" 
+                                       string="Horizontal Offset"
+                                       invisible="not x_precise_position"
+                                       class="fw-bold"/>
+                                <div invisible="not x_precise_position" class="o_row">
+                                    <field name="x_offset_right" 
+                                           placeholder="0"
+                                           class="oe_inline"
+                                           style="width: 100px;"/>
+                                    <span class="mx-2">px from</span>
+                                    <field name="x_offset_right_dir" 
+                                           class="oe_inline"
+                                           style="width: 100px;"/>
+                                </div>
+                                
+                                <label for="x_offset_bottom" 
+                                       string="Vertical Offset"
+                                       invisible="not x_precise_position"
+                                       class="fw-bold"/>
+                                <div invisible="not x_precise_position" class="o_row">
+                                    <field name="x_offset_bottom" 
+                                           placeholder="0"
+                                           class="oe_inline"
+                                           style="width: 100px;"/>
+                                    <span class="mx-2">px from</span>
+                                    <field name="x_offset_bottom_dir" 
+                                           class="oe_inline"
+                                           style="width: 100px;"/>
+                                </div>
+                            </group>
+                            
+                            <group>
+                                <!-- Help text shown only when precise positioning is enabled -->
+                                <div style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9;"
+                                     invisible="not x_precise_position">
+                                    <strong>Allowed Values:</strong> 20 - 250px<br/>
+                                    <small class="text-muted">Set custom offset distances to position the widget precisely where you want it on your website.</small>
+                                </div>
+                                
+                                <!-- Help text shown when using simple positioning -->
+                                <div style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9;"
+                                     invisible="x_precise_position">
+                                    <strong>Quick Position:</strong><br/>
+                                    <small class="text-muted">Choose a corner position for the accessibility widget. Enable "Custom Positioning" for precise control.</small>
+                                </div>
+                            </group>
+                        </group>
+
+                        <!-- ══ Widget & Icon Appearance Section ══ -->
+                        <group string="Widget &amp; Icon Appearance">
+                            <group>
+                                <field name="x_size" 
+                                       string="Widget Size"
+                                       widget="radio"
+                                       options="{'horizontal': true}"/>
+                                
+                                <field name="x_icon_type" 
+                                       string="Icon Type"/>
+                                
+                                <field name="x_custom_icon_size"
+                                       string="Enable Custom Icon Size"
+                                       widget="boolean_toggle"/>
+                                
+                                <!-- Default icon size selector -->
+                                <field name="x_icon_size_desktop"
+                                       string="Icon Size (Desktop)"
+                                       invisible="x_custom_icon_size"/>
+                                
+                                <!-- Custom icon size input -->
+                                <label for="x_custom_icon_size_px" 
+                                       string="Custom Icon Size"
+                                       invisible="not x_custom_icon_size"
+                                       class="fw-bold"/>
+                                <div invisible="not x_custom_icon_size" class="o_row">
+                                    <field name="x_custom_icon_size_px"
+                                           placeholder="50"
+                                           class="oe_inline"
+                                           style="width: 100px;"/>
+                                    <span class="mx-2">px</span>
+                                </div>
+                            </group>
+                            
+                            <group>
+                                <!-- Help text shown only when custom icon size is enabled -->
+                                <div style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9;"
+                                     invisible="not x_custom_icon_size">
+                                    <strong>Allowed Values:</strong> 20 - 150px<br/>
+                                    <small class="text-muted">Customize the icon size to match your website's design.</small>
+                                </div>
+                                
+                                <!-- Help text shown when using preset sizes -->
+                                <div style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9;"
+                                     invisible="x_custom_icon_size">
+                                    <strong>Appearance Settings:</strong><br/>
+                                    <small class="text-muted">Choose widget size and icon style. Enable "Custom Icon Size" for precise pixel control.</small>
+                                </div>
+                            </group>
+                        </group>
+
+                        <!-- ══ Info Banner ══ -->
+                        <div style="padding: 12px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; margin-top: 15px;">
+                            <strong>Note:</strong> It may take a few seconds for changes to appear on your website. 
+                            If you don't see the changes, try clearing your browser cache or checking in a private browsing window.
+                        </div>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ══ Window Action - FIXED: Always open the default record ══ -->
+        <record id="action_aioa_settings_window" model="ir.actions.act_window">
+            <field name="name">All in One Accessibility</field>
+            <field name="res_model">x_aioa.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+            <field name="res_id" ref="aioa_settings_default"/>
+            <field name="context">{'form_view_initial_mode': 'edit'}</field>
+        </record>
+        
+        <!-- ══ Inject into Odoo General Settings page ══ -->
+        <record id="res_config_settings_view_aioa_inject" model="ir.ui.view">
+            <field name="name">res.config.settings.view.aioa.inject</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='companies']" position="after">
+                    <div id="aioa_settings_section" class="o_setting_box col-xs-12 col-md-6">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <div class="o_form_label">
+                                <strong>All in One Accessibility</strong>
+                            </div>
+                            <div class="text-muted mt4 mb8">
+                                Website accessibility widget for improving WCAG 2.0, 2.1, 2.2 and ADA, EAA compliance.
+                            </div>
+                            <a type="action"
+                               name="odoo-allinoneaccessibilitypro.action_aioa_settings_window"
+                               class="btn btn-secondary btn-sm"
+                               role="button">
+                                Configure Widget &#8594;
+                            </a>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- MODEL: x_aioa.settings -->
+        <record id="model_aioa_settings" model="ir.model">
+            <field name="name">AIOA Settings</field>
+            <field name="model">x_aioa.settings</field>
+        </record>
+
+        <!-- Configuration Name — NOT required (hidden from UI) -->
+        <record id="field_aioa_name" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_name</field>
+            <field name="field_description">Configuration Name</field>
+            <field name="ttype">char</field>
+            <field name="required">False</field>
+        </record>
+
+        <!-- Color Code -->
+        <record id="field_aioa_color_code" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_color_code</field>
+            <field name="field_description">Hex Color Code</field>
+            <field name="ttype">char</field>
+            <field name="help">Enter hex color without the hash sign. Example: 420083 or FF5733</field>
+        </record>
+
+        <!-- Widget Position -->
+        <record id="field_aioa_style" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_style</field>
+            <field name="field_description">Position of Accessibility Icon</field>
+            <field name="ttype">selection</field>
+        </record>
+        <record id="sel_style_top_left" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_style"/>
+            <field name="name">Top Left</field>
+            <field name="value">top_left</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="sel_style_top_center" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_style"/>
+            <field name="name">Top Center</field>
+            <field name="value">top_center</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="sel_style_top_right" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_style"/>
+            <field name="name">Top Right</field>
+            <field name="value">top_right</field>
+            <field name="sequence">3</field>
+        </record>
+        <record id="sel_style_middle_left" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_style"/>
+            <field name="name">Middle Left</field>
+            <field name="value">middle_left</field>
+            <field name="sequence">4</field>
+        </record>
+        <record id="sel_style_middle_right" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_style"/>
+            <field name="name">Middle Right</field>
+            <field name="value">middle_right</field>
+            <field name="sequence">5</field>
+        </record>
+        <record id="sel_style_bottom_left" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_style"/>
+            <field name="name">Bottom Left</field>
+            <field name="value">bottom_left</field>
+            <field name="sequence">6</field>
+        </record>
+        <record id="sel_style_bottom_center" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_style"/>
+            <field name="name">Bottom Center</field>
+            <field name="value">bottom_center</field>
+            <field name="sequence">7</field>
+        </record>
+        <record id="sel_style_bottom_right" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_style"/>
+            <field name="name">Bottom Right</field>
+            <field name="value">bottom_right</field>
+            <field name="sequence">8</field>
+        </record>
+
+        <!-- Icon Type -->
+        <record id="field_aioa_icon_type" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_icon_type</field>
+            <field name="field_description">Icon Type</field>
+            <field name="ttype">selection</field>
+        </record>
+        <record id="sel_icon_type_1" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_type"/>
+            <field name="name">Icon Type-1</field>
+            <field name="value">aioa-icon-type-1</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="sel_icon_type_2" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_type"/>
+            <field name="name">Icon Type-2</field>
+            <field name="value">aioa-icon-type-2</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="sel_icon_type_3" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_type"/>
+            <field name="name">Icon Type-3</field>
+            <field name="value">aioa-icon-type-3</field>
+            <field name="sequence">3</field>
+        </record>
+        <record id="sel_icon_type_4" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_type"/>
+            <field name="name">Icon Type-4</field>
+            <field name="value">aioa-icon-type-4</field>
+            <field name="sequence">4</field>
+        </record>
+        <record id="sel_icon_type_5" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_type"/>
+            <field name="name">Icon Type-5</field>
+            <field name="value">aioa-icon-type-5</field>
+            <field name="sequence">5</field>
+        </record>
+        <record id="sel_icon_type_6" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_type"/>
+            <field name="name">Icon Type-6</field>
+            <field name="value">aioa-icon-type-6</field>
+            <field name="sequence">6</field>
+        </record>
+        <record id="sel_icon_type_7" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_type"/>
+            <field name="name">Icon Type-7</field>
+            <field name="value">aioa-icon-type-7</field>
+            <field name="sequence">7</field>
+        </record>
+        <record id="sel_icon_type_8" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_type"/>
+            <field name="name">Icon Type-8</field>
+            <field name="value">aioa-icon-type-8</field>
+            <field name="sequence">8</field>
+        </record>
+        <record id="sel_icon_type_9" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_type"/>
+            <field name="name">Icon Type-9</field>
+            <field name="value">aioa-icon-type-9</field>
+            <field name="sequence">9</field>
+        </record>
+        <record id="sel_icon_type_10" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_type"/>
+            <field name="name">Icon Type-10</field>
+            <field name="value">aioa-icon-type-10</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- Icon Size Desktop -->
+        <record id="field_aioa_icon_size_desktop" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_icon_size_desktop</field>
+            <field name="field_description">Icon Size (Desktop)</field>
+            <field name="ttype">selection</field>
+        </record>
+        <record id="sel_desk_big" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_size_desktop"/>
+            <field name="name">Big Icon</field>
+            <field name="value">aioa-big-icon</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="sel_desk_medium" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_size_desktop"/>
+            <field name="name">Medium Icon</field>
+            <field name="value">aioa-medium-icon</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="sel_desk_default" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_size_desktop"/>
+            <field name="name">Default Icon</field>
+            <field name="value">aioa-default-icon</field>
+            <field name="sequence">3</field>
+        </record>
+        <record id="sel_desk_small" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_size_desktop"/>
+            <field name="name">Small Icon</field>
+            <field name="value">aioa-small-icon</field>
+            <field name="sequence">4</field>
+        </record>
+        <record id="sel_desk_extra_small" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_icon_size_desktop"/>
+            <field name="name">Extra Small Icon</field>
+            <field name="value">aioa-extra-small-icon</field>
+            <field name="sequence">5</field>
+        </record>
+
+        <!-- Widget Size -->
+        <record id="field_aioa_size" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_size</field>
+            <field name="field_description">Widget Size</field>
+            <field name="ttype">selection</field>
+        </record>
+        <record id="sel_size_regular" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_size"/>
+            <field name="name">Regular Size</field>
+            <field name="value">regular</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="sel_size_oversize" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_size"/>
+            <field name="name">Oversize</field>
+            <field name="value">oversize</field>
+            <field name="sequence">2</field>
+        </record>
+
+        <!-- Precise Position Toggle -->
+        <record id="field_aioa_precise_position" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_precise_position</field>
+            <field name="field_description">Enable Precise Widget Icon Position</field>
+            <field name="ttype">boolean</field>
+        </record>
+
+        <!-- Right Offset PX -->
+        <record id="field_aioa_offset_right" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_offset_right</field>
+            <field name="field_description">Right Offset (PX)</field>
+            <field name="ttype">integer</field>
+            <field name="help">0 - 250px permitted</field>
+        </record>
+
+        <!-- Right Offset Direction -->
+        <record id="field_aioa_offset_right_dir" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_offset_right_dir</field>
+            <field name="field_description">Right Offset Direction</field>
+            <field name="ttype">selection</field>
+        </record>
+        <record id="sel_right_dir_left" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_offset_right_dir"/>
+            <field name="name">To the left</field>
+            <field name="value">to_the_left</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="sel_right_dir_right" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_offset_right_dir"/>
+            <field name="name">To the right</field>
+            <field name="value">to_the_right</field>
+            <field name="sequence">2</field>
+        </record>
+
+        <!-- Bottom Offset PX -->
+        <record id="field_aioa_offset_bottom" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_offset_bottom</field>
+            <field name="field_description">Bottom Offset (PX)</field>
+            <field name="ttype">integer</field>
+            <field name="help">0 - 250px permitted</field>
+        </record>
+
+        <!-- Bottom Offset Direction -->
+        <record id="field_aioa_offset_bottom_dir" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_offset_bottom_dir</field>
+            <field name="field_description">Bottom Offset Direction</field>
+            <field name="ttype">selection</field>
+        </record>
+        <record id="sel_bottom_dir_bottom" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_offset_bottom_dir"/>
+            <field name="name">To the bottom</field>
+            <field name="value">to_the_bottom</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="sel_bottom_dir_top" model="ir.model.fields.selection">
+            <field name="field_id" ref="field_aioa_offset_bottom_dir"/>
+            <field name="name">To the top</field>
+            <field name="value">to_the_top</field>
+            <field name="sequence">2</field>
+        </record>
+
+        <!-- Custom Icon Size Toggle -->
+        <record id="field_aioa_custom_icon_size" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_custom_icon_size</field>
+            <field name="field_description">Enable Custom Icon Size</field>
+            <field name="ttype">boolean</field>
+        </record>
+
+        <!-- Custom Icon Size PX -->
+        <record id="field_aioa_custom_icon_size_px" model="ir.model.fields">
+            <field name="model_id" ref="model_aioa_settings"/>
+            <field name="name">x_custom_icon_size_px</field>
+            <field name="field_description">Exact Icon Size (PX)</field>
+            <field name="ttype">integer</field>
+            <field name="help">20 - 150px permitted</field>
+        </record>
+
+        <!-- DEFAULT VALUES -->
+        <record id="default_aioa_style" model="ir.default">
+            <field name="field_id" ref="field_aioa_style"/>
+            <field name="json_value">"bottom_right"</field>
+        </record>
+        <record id="default_aioa_icon_type" model="ir.default">
+            <field name="field_id" ref="field_aioa_icon_type"/>
+            <field name="json_value">"aioa-icon-type-1"</field>
+        </record>
+        <record id="default_aioa_icon_size_desktop" model="ir.default">
+            <field name="field_id" ref="field_aioa_icon_size_desktop"/>
+            <field name="json_value">"aioa-default-icon"</field>
+        </record>
+        <record id="default_aioa_size" model="ir.default">
+            <field name="field_id" ref="field_aioa_size"/>
+            <field name="json_value">"oversize"</field>
+        </record>
+        <record id="default_aioa_offset_right" model="ir.default">
+            <field name="field_id" ref="field_aioa_offset_right"/>
+            <field name="json_value">20</field>
+        </record>
+        <record id="default_aioa_offset_right_dir" model="ir.default">
+            <field name="field_id" ref="field_aioa_offset_right_dir"/>
+            <field name="json_value">"to_the_left"</field>
+        </record>
+        <record id="default_aioa_offset_bottom" model="ir.default">
+            <field name="field_id" ref="field_aioa_offset_bottom"/>
+            <field name="json_value">20</field>
+        </record>
+        <record id="default_aioa_offset_bottom_dir" model="ir.default">
+            <field name="field_id" ref="field_aioa_offset_bottom_dir"/>
+            <field name="json_value">"to_the_bottom"</field>
+        </record>
+        <record id="default_aioa_custom_icon_size_px" model="ir.default">
+            <field name="field_id" ref="field_aioa_custom_icon_size_px"/>
+            <field name="json_value">50</field>
+        </record>
+        <record id="default_aioa_color_code" model="ir.default">
+            <field name="field_id" ref="field_aioa_color_code"/>
+            <field name="json_value">"420083"</field>
+        </record>
+
+        <!-- ============================================================
+             SYSTEM PARAMETERS — Reset to defaults on every install/upgrade
+             First DELETE existing keys to avoid UniqueViolation on reinstall,
+             then recreate them with XML ids so future upgrades can update them.
+             ============================================================ -->
+        <delete model="ir.config_parameter" search="[('key', 'like', 'odoo-allinoneaccessibilitypro.')]"/>
+        <record id="param_color_code" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.color_code</field>
+            <field name="value">420083</field>
+        </record>
+        <record id="param_style" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.style</field>
+            <field name="value">bottom_right</field>
+        </record>
+        <record id="param_icon_type" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.icon_type</field>
+            <field name="value">aioa-icon-type-1</field>
+        </record>
+        <record id="param_size" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.size</field>
+            <field name="value">oversize</field>
+        </record>
+        <record id="param_icon_size_desktop" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.icon_size_desktop</field>
+            <field name="value">aioa-default-icon</field>
+        </record>
+        <record id="param_precise_position" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.precise_position</field>
+            <field name="value">False</field>
+        </record>
+        <record id="param_offset_right" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.offset_right</field>
+            <field name="value">20</field>
+        </record>
+        <record id="param_offset_right_dir" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.offset_right_dir</field>
+            <field name="value">to_the_left</field>
+        </record>
+        <record id="param_offset_bottom" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.offset_bottom</field>
+            <field name="value">20</field>
+        </record>
+        <record id="param_offset_bottom_dir" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.offset_bottom_dir</field>
+            <field name="value">to_the_bottom</field>
+        </record>
+        <record id="param_custom_icon_size" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.custom_icon_size</field>
+            <field name="value">False</field>
+        </record>
+        <record id="param_custom_icon_size_px" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.custom_icon_size_px</field>
+            <field name="value">50</field>
+        </record>
+        <record id="param_no_required_eu" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.no_required_eu</field>
+            <field name="value">1</field>
+        </record>
+
+    </data>
+
+<!--
+    <data noupdate="1">
+
+        <record id="param_token" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.token</field>
+            <field name="value"></field>
+        </record>
+
+
+        <record id="param_api_called" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.api_called</field>
+            <field name="value">False</field>
+        </record>
+
+        <record id="param_pending_widget_payload" model="ir.config_parameter">
+            <field name="key">odoo-allinoneaccessibilitypro.pending_widget_payload</field>
+            <field name="value"></field>
+        </record>
+
+    </data>-->
+</odoo>
