@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="odoo-accessibility"
+            inherit_id="website.layout"
+            name="Accessibility Widget">
+
+    <xpath expr="//header" position="after">
+
+      <!-- ================= CONFIG VALUES ================= -->
+      <t t-set="ICP" t-value="request.env['ir.config_parameter'].sudo()"/>
+
+      <t t-set="no_required_eu"
+         t-value="ICP.get_param('odoo-allinoneaccessibilitypro.no_required_eu', '1')"/>
+      <t t-set="aioa_color"
+         t-value="ICP.get_param('odoo-allinoneaccessibilitypro.color_code', '420083').lstrip('#')"/>
+      <t t-set="aioa_precise"
+         t-value="ICP.get_param('odoo-allinoneaccessibilitypro.precise_position', 'False')"/>
+      <t t-set="aioa_style"
+         t-value="ICP.get_param('odoo-allinoneaccessibilitypro.style', 'bottom_right')"/>
+      <t t-set="aioa_position"
+         t-value="'' if aioa_precise in ['True', True] else aioa_style"/>
+      <t t-set="aioa_token"
+         t-value="ICP.get_param('odoo-allinoneaccessibilitypro.token', '')"/>
+      <t t-set="aioa_base_url"
+         t-value="ICP.get_param('web.base.url', '')"/>
+      <t t-set="api_called"
+         t-value="ICP.get_param('odoo-allinoneaccessibilitypro.api_called', 'False')"/>
+      <t t-set="no_eu_val"
+         t-value="ICP.get_param('odoo-allinoneaccessibilitypro.no_required_eu', '1')"/>
+       <t t-set="aioa_offset_right"
+         t-value="ICP.get_param('odoo-allinoneaccessibilitypro.offset_right', '20')"/>
+       <t t-set="aioa_offset_bottom"
+         t-value="ICP.get_param('odoo-allinoneaccessibilitypro.offset_bottom', '20')"/>
+        <t t-set="aioa_offset_right_dir"
+        t-value="ICP.get_param('odoo-allinoneaccessibilitypro.offset_right_dir', 'to_the_left')"/>
+        <t t-set="aioa_offset_bottom_dir"
+        t-value="ICP.get_param('odoo-allinoneaccessibilitypro.offset_bottom_dir', 'to_the_bottom')"/>
+
+      <!-- ================= WIDGET SCRIPT ================= -->
+      <t t-if="no_required_eu == '1'">
+        <script id="aioa-adawidget"
+          t-attf-src="https://www.skynettechnologies.com/accessibility/js/all-in-one-accessibility-js-widget-minify.js?colorcode=%23#{aioa_color}&amp;token=#{aioa_token}&amp;position=#{aioa_position}">
+        </script>
+      </t>
+
+      <t t-if="no_required_eu == '0'">
+        <script id="aioa-adawidget"
+          t-attf-src="https://eu.skynettechnologies.com/accessibility/js/all-in-one-accessibility-js-widget-minify.js?colorcode=%23#{aioa_color}&amp;token=#{aioa_token}&amp;position=#{aioa_position}">
+        </script>
+      </t>
+
+      <!-- ================= CUSTOM POSITIONING ON LOAD ================= -->
+      <t t-if="aioa_precise in ['True', True]">
+        <script type="text/javascript">
+        //<![CDATA[
+        (function() {
+          function applyInitialCustomPosition() {
+            var maxAttempts = 100;
+            var attempts = 0;
+            
+            var checkInterval = setInterval(function() {
+              attempts++;
+              
+              // Search for widget container - try multiple selectors
+              var widgetContainer = null;
+              var possibleSelectors = [
+                '#aioa-ada-widget-container',
+                '[id*="aioa-ada"]',
+                '[class*="aioa-ada"]',
+                'div[style*="position: fixed"][style*="z-index"]'
+              ];
+              
+              for (var i = 0; i < possibleSelectors.length; i++) {
+                var elements = document.querySelectorAll(possibleSelectors[i]);
+                for (var j = 0; j < elements.length; j++) {
+                  var el = elements[j];
+                  var computed = window.getComputedStyle(el);
+                  // Check if element is fixed positioned (likely the widget)
+                  if (computed.position === 'fixed') {
+                    widgetContainer = el;
+                    break;
+                  }
+                }
+                if (widgetContainer) break;
+              }
+              
+              if (widgetContainer || attempts >= maxAttempts) {
+                clearInterval(checkInterval);
+                
+                if (widgetContainer) {
+                  var rightOffset = parseInt('<t t-out="aioa_offset_right"/>') || 20;
+                  var bottomOffset = parseInt('<t t-out="aioa_offset_bottom"/>') || 20;
+                  var rightDir = '<t t-out="aioa_offset_right_dir"/>';
+                  var bottomDir = '<t t-out="aioa_offset_bottom_dir"/>';
+                  
+                  // Apply positioning with !important to override widget's default styles
+                  if (rightDir === 'to_the_right') {
+                    widgetContainer.style.setProperty('left', 'auto', 'important');
+                    widgetContainer.style.setProperty('right', rightOffset + 'px', 'important');
+                  } else {
+                    widgetContainer.style.setProperty('right', 'auto', 'important');
+                    widgetContainer.style.setProperty('left', rightOffset + 'px', 'important');
+                  }
+                  
+                  if (bottomDir === 'to_the_top') {
+                    widgetContainer.style.setProperty('top', 'auto', 'important');
+                    widgetContainer.style.setProperty('bottom', bottomOffset + 'px', 'important');
+                  } else {
+                    widgetContainer.style.setProperty('bottom', 'auto', 'important');
+                    widgetContainer.style.setProperty('top', bottomOffset + 'px', 'important');
+                  }
+                }
+              }
+            }, 100);
+          }
+          
+          // Run when DOM is ready
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyInitialCustomPosition);
+          } else {
+            applyInitialCustomPosition();
+          }
+        })();
+        //]]>
+        </script>
+      </t>
+
+      <!-- ================= GLOBAL VARIABLES ================= -->
+      <script type="text/javascript">
+        var AIOA_API_CALLED = '<t t-out="api_called"/>';
+        var AIOA_NO_EU      = '<t t-out="no_eu_val"/>';
+        var AIOA_BASE_URL   = '<t t-out="aioa_base_url"/>';
+        var AIOA_NO_REQ_EU  = '<t t-out="no_required_eu"/>';
+        var AIOA_TOKEN      = '<t t-out="aioa_token"/>';
+        var AIOA_COLOR      = '<t t-out="aioa_color"/>';
+        var AIOA_POSITION   = '<t t-out="aioa_position"/>';
+        var AIOA_OFFSET_RIGHT      = '<t t-out="aioa_offset_right"/>';
+        var AIOA_OFFSET_BOTTOM     = '<t t-out="aioa_offset_bottom"/>';
+        var AIOA_OFFSET_RIGHT_DIR  = '<t t-out="aioa_offset_right_dir"/>';
+        var AIOA_OFFSET_BOTTOM_DIR = '<t t-out="aioa_offset_bottom_dir"/>';
+      </script>
+
+      <!-- ================= MAIN SCRIPT ================= -->
+      <script type="text/javascript">
+      //<![CDATA[
+      (function () {
+
+        var apiCalled    = AIOA_API_CALLED;
+        var noEu         = AIOA_NO_EU;
+        var baseUrl      = AIOA_BASE_URL;
+        var noRequiredEu = AIOA_NO_REQ_EU;
+        var currentToken = AIOA_TOKEN;
+        var currentColor = AIOA_COLOR;
+        var currentPos   = AIOA_POSITION;
+        var offsetRight     = AIOA_OFFSET_RIGHT;
+        var offsetBottom    = AIOA_OFFSET_BOTTOM;
+        var offsetRightDir  = AIOA_OFFSET_RIGHT_DIR;
+        var offsetBottomDir = AIOA_OFFSET_BOTTOM_DIR;
+
+        /* ===== DOMAIN RESOLVE ===== */
+        var domain = baseUrl;
+        if (baseUrl.indexOf('://') !== -1) {
+          var parts = baseUrl.split('://');
+          var host  = parts[1].split('/')[0].split(':')[0];
+          domain    = parts[0] + '://' + host;
+        }
+
+        var domainName = domain.indexOf('://') !== -1
+          ? domain.split('://')[1]
+          : domain;
+
+        /* ===== RPC HELPERS ===== */
+        function getParam(key) {
+          return fetch('/web/dataset/call_kw', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              jsonrpc: '2.0',
+              method: 'call',
+              params: {
+                model: 'ir.config_parameter',
+                method: 'get_param',
+                args: [key, ''],
+                kwargs: {}
+              }
+            })
+          })
+          .then(r => r.json())
+          .then(d => d.result || '')
+          .catch(() => '');
+        }
+
+        function setParam(key, value) {
+          return fetch('/web/dataset/call_kw', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              jsonrpc: '2.0',
+              method: 'call',
+              params: {
+                model: 'ir.config_parameter',
+                method: 'set_param',
+                args: [key, value],
+                kwargs: {}
+              }
+            })
+          });
+        }
+
+        function apiPost(url, payload) {
+          return fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          })
+          .then(r => r.json().catch(() => null))
+          .catch(() => null);
+        }
+
+        /* ===== APPLY CUSTOM WIDGET POSITION ===== */
+        function applyCustomPosition() {
+          var maxAttempts = 100;
+          var attempts = 0;
+          
+          var checkInterval = setInterval(function() {
+            attempts++;
+            
+            // Search for widget container
+            var widgetContainer = null;
+            var possibleSelectors = [
+              '#aioa-ada-widget-container',
+              '[id*="aioa-ada"]',
+              '[class*="aioa-ada"]',
+              'div[style*="position: fixed"][style*="z-index"]'
+            ];
+            
+            for (var i = 0; i < possibleSelectors.length; i++) {
+              var elements = document.querySelectorAll(possibleSelectors[i]);
+              for (var j = 0; j < elements.length; j++) {
+                var el = elements[j];
+                var computed = window.getComputedStyle(el);
+                if (computed.position === 'fixed') {
+                  widgetContainer = el;
+                  break;
+                }
+              }
+              if (widgetContainer) break;
+            }
+            
+            if (widgetContainer || attempts >= maxAttempts) {
+              clearInterval(checkInterval);
+              
+              if (widgetContainer) {
+                var rightOff = parseInt(offsetRight) || 20;
+                var bottomOff = parseInt(offsetBottom) || 20;
+                
+                // Apply with !important to override default styles
+                if (offsetRightDir === 'to_the_right') {
+                  widgetContainer.style.setProperty('left', 'auto', 'important');
+                  widgetContainer.style.setProperty('right', rightOff + 'px', 'important');
+                } else {
+                  widgetContainer.style.setProperty('right', 'auto', 'important');
+                  widgetContainer.style.setProperty('left', rightOff + 'px', 'important');
+                }
+                
+                if (offsetBottomDir === 'to_the_top') {
+                  widgetContainer.style.setProperty('top', 'auto', 'important');
+                  widgetContainer.style.setProperty('bottom', bottomOff + 'px', 'important');
+                } else {
+                  widgetContainer.style.setProperty('bottom', 'auto', 'important');
+                  widgetContainer.style.setProperty('top', bottomOff + 'px', 'important');
+                }
+              }
+            }
+          }, 100);
+        }
+
+        /* ===== WIDGET RELOAD ===== */
+        function reloadWidget(token, color, position) {
+
+          var base = noRequiredEu === '0'
+            ? 'https://eu.skynettechnologies.com'
+            : 'https://www.skynettechnologies.com';
+
+          var t = token || currentToken || '';
+          var c = color || currentColor || '420083';
+          var p = position || currentPos || 'bottom_right';
+
+          [
+            '#aioa-adawidget',
+            '#adaWidgetContainer',
+            '#adaWidget',
+            '.aioa-widget-container',
+            '[id^="adaWidget"]',
+            '[id^="aioa"]',
+            '[class*="aioa-"]',
+            '[class*="adaWidget"]'
+          ].forEach(function (sel) {
+            try {
+              document.querySelectorAll(sel).forEach(function (el) {
+                if (el && el.parentNode) {
+                  el.parentNode.removeChild(el);
+                }
+              });
+            } catch (e) {}
+          });
+
+          var s = document.createElement('script');
+          s.id  = 'aioa-adawidget';
+          s.src = base
+            + '/accessibility/js/all-in-one-accessibility-js-widget-minify.js'
+            + '?colorcode=%23' + c
+            + '&token=' + encodeURIComponent(t)
+            + '&position=' + p;
+
+          s.async = true;
+          document.head.appendChild(s);
+          
+          // Apply custom positioning if enabled (when position is empty)
+          if (!p || p === '') {
+            setTimeout(function() {
+              applyCustomPosition();
+            }, 500);
+          }
+        }
+
+        /* ===== MAIN FLOW ===== */
+        getParam('odoo-allinoneaccessibilitypro.pending_widget_payload')
+        .then(function (pendingJson) {
+
+          /* ========= TRIGGER 1 ========= */
+          if (apiCalled !== 'True') {
+
+            apiPost('https://ada.skynettechnologies.us/api/add-user-domain',{
+                          name:            domainName,
+                          email:           'no-reply@' + domainName,
+                          company_name:    '',
+                          website:         btoa(domain),
+                          package_type:    'small-site',
+                          start_date:      new Date().toISOString(),
+                          end_date:        '',
+                          price:           '250',
+                          discount_price:  '0',
+                          platform:        'Odoo',
+                          api_key:         '',
+                          is_trial_period: '',
+                          is_free_widget:  '0',
+                          bill_address:    '',
+                          country:         '',
+                          state:           '',
+                          city:            '',
+                          post_code:       '',
+                          transaction_id:  '',
+                          subscr_id:       '',
+                          payment_source:  '',
+                          no_required_eu:  noEu === '0' ? 0 : 1
+                      })
+
+            .then(function (resp) {
+              var token = '';
+
+              if (resp) {
+                token = resp.token
+                  || resp.api_key
+                  || resp.api_token
+                  || resp.widget_token
+                  || resp.access_token
+                  || '';
+              }
+
+              token = String(token || '').trim();
+
+              return setParam('odoo-allinoneaccessibilitypro.token', token)
+              .then(function () {
+
+                var widgetPayload = {
+                  widget_color_code: '#' + currentColor,
+                  widget_position: currentPos,
+                  widget_token: token
+                };
+
+                return apiPost(
+                  'https://ada.skynettechnologies.us/api/widget-setting-update-platform',
+                  widgetPayload
+                ).then(function () {
+                  return token;
+                });
+              });
+            })
+
+            .then(function (token) {
+              return setParam('odoo-allinoneaccessibilitypro.api_called', 'True')
+              .then(function () {
+                reloadWidget(token, null, null);
+              });
+            })
+
+            .catch(function () {
+              setParam('odoo-allinoneaccessibilitypro.api_called', 'True');
+            });
+
+            return;
+          }
+
+          /* ========= TRIGGER 2 ========= */
+          if (!pendingJson) return;
+
+          var wPayload;
+          try {
+            wPayload = JSON.parse(pendingJson);
+          } catch (e) {
+            return;
+          }
+
+          setParam('odoo-allinoneaccessibilitypro.pending_widget_payload', '')
+          .then(function () {
+            return apiPost(
+              'https://ada.skynettechnologies.us/api/widget-setting-update-platform',
+              wPayload
+            );
+          })
+          .then(function () {
+            var newColor = (wPayload.widget_color_code || ('#' + currentColor)).replace('#', '');
+            var newPos   = wPayload.widget_position || currentPos;
+            reloadWidget(currentToken, newColor, newPos);
+          });
+
+        });
+
+      })();
+      //]]>
+      </script>
+
+    </xpath>
+  </template>
+</odoo>

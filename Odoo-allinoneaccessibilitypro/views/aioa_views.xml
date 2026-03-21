@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <data noupdate="0">
+
+        <!-- ══ Default record created on install only, not overwritten on upgrade ══ -->
+        <record id="aioa_settings_default" model="x_aioa.settings">
+            <field name="x_name">Default</field>
+            <field name="x_color_code">420083</field>
+            <field name="x_style">bottom_right</field>
+            <field name="x_icon_type">aioa-icon-type-1</field>
+            <field name="x_icon_size_desktop">aioa-default-icon</field>
+            <field name="x_size">oversize</field>
+        </record>
+    </data>
+
+    <data>
+
+        <!-- ══ List View ══ -->
+        <record id="view_aioa_settings_list" model="ir.ui.view">
+            <field name="name">x_aioa.settings.list</field>
+            <field name="model">x_aioa.settings</field>
+            <field name="arch" type="xml">
+                <tree string="All in One Accessibility Settings">
+                    <field name="x_color_code"/>
+                    <field name="x_style"/>
+                    <field name="x_icon_type"/>
+                    <field name="x_size"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ══ Form View ══ -->
+        <record id="view_aioa_settings_form" model="ir.ui.view">
+            <field name="name">x_aioa.settings.form</field>
+            <field name="model">x_aioa.settings</field>
+            <field name="arch" type="xml">
+                <form string="All in One Accessibility">
+                    <header>
+                        <button name="odoo-allinoneaccessibilitypro.action_aioa_save_and_sync"
+                                type="action"
+                                string="Save and Sync Widget"
+                                class="btn-primary"
+                                save="1"/>
+                    </header>
+                    <sheet>
+
+                       <group string="All in One Accessibility Settings Page">
+                            <group>
+                                <field name="x_color_code" placeholder="420083"/>
+                            </group>
+                            <group>
+                                <div class="text-muted">
+                                    Enter hex color without the # symbol. Example: FF5733
+                                </div>
+                            </group>
+                        </group>
+ 
+                        <group string="Widget Position">
+                            <group>
+                                <field name="x_precise_position"/>
+                                <field name="x_style"              attrs="{'invisible': [('x_precise_position', '=', True)]}"/>
+                                <field name="x_offset_right"       attrs="{'invisible': [('x_precise_position', '=', False)]}"/>
+                                <field name="x_offset_right_dir"   attrs="{'invisible': [('x_precise_position', '=', False)]}"/>
+                                <field name="x_offset_bottom"      attrs="{'invisible': [('x_precise_position', '=', False)]}"/>
+                                <field name="x_offset_bottom_dir"  attrs="{'invisible': [('x_precise_position', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <div class="text-muted" attrs="{'invisible': [('x_precise_position', '=', False)]}">
+                                    Permitted values: 20 - 250px
+                                </div>
+                            </group>
+                        </group>
+ 
+                        <group string="Widget &amp; Icon Appearance">
+                            <group>
+                                <field name="x_size"/>
+                                <field name="x_icon_type"/>
+                                <field name="x_custom_icon_size"/>
+                                <field name="x_icon_size_desktop"  attrs="{'invisible': [('x_custom_icon_size', '=', True)]}"/>
+                                <field name="x_custom_icon_size_px" attrs="{'invisible': [('x_custom_icon_size', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <div class="text-muted" attrs="{'invisible': [('x_custom_icon_size', '=', False)]}">
+                                    Permitted values: 20 - 150px
+                                </div>
+                            </group>
+                        </group>
+                            <div class="alert alert-info mb-0" role="alert">
+                                <strong>Note:</strong> It may take a few seconds for changes to appear on your website. 
+                                If you don't see the changes, try clearing your browser cache or checking in a private browsing window.
+                            </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        
+        <!-- ══ Window Action - FIXED: Always open the default record ══ -->
+        <record id="action_aioa_settings_window" model="ir.actions.act_window">
+            <field name="name">All in One Accessibility</field>
+            <field name="res_model">x_aioa.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+            <field name="res_id" ref="aioa_settings_default"/>
+            <field name="context">{'form_view_initial_mode': 'edit'}</field>
+        </record>
+        
+        <!-- ══ Inject into Odoo General Settings page ══ -->
+        <record id="res_config_settings_view_aioa_inject" model="ir.ui.view">
+            <field name="name">res.config.settings.view.aioa.inject</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='companies']" position="after">
+                    <div id="aioa_settings_section" class="o_setting_box col-xs-12 col-md-6">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <div class="o_form_label">
+                                <strong>All in One Accessibility</strong>
+                            </div>
+                            <div class="text-muted mt4 mb8">
+                                Website accessibility widget for improving WCAG 2.0, 2.1, 2.2 and ADA, EAA compliance
+                            </div>
+                            <a type="action"
+                               name="odoo-allinoneaccessibilitypro.action_aioa_settings_window"
+                               class="btn btn-secondary btn-sm"
+                               role="button">
+                                Configure Widget &#8594;
+                            </a>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
