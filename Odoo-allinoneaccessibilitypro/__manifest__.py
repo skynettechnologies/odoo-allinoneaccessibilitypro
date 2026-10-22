@@ -4,6 +4,8 @@
     'category': 'Website',
     'version': '1.1',
     'license': 'OPL-1',
+    'price': 999.00,
+    'currency': 'USD',
     'summary': 'All in One Accessibility widget helps organizations enhance accessibility and usability of their website',
     'description': 'All in One Accessibility widget improves Odoo website ADA compliance for WCAG 2.1, Section 508, Australian DDA, European EAA EN 301 549, UK Equality Act, Israeli Standard 5568, California Unruh, Ontario AODA, Canada ACA, German BITV, France RGAA Standards',
     'author': 'Skynet Technologies USA LLC',
